@@ -1,7 +1,11 @@
 import { styled } from "@mui/material/styles";
 
+export const BannerContainer = styled("div")(() => ({
+  padding: "2rem",
+}));
 export const TitleContainer = styled("div")(() => ({
   display: "flex",
+  marginBottom: "2rem",
   cursor: "pointer",
 }));
 export const WelcomeStyles = styled("h1")(() => ({
@@ -26,5 +30,5 @@ export const SubTitleStyles = styled("h3")(() => ({
   marginTop: "0.75rem",
   fontSize: "1.5rem",
   lineHeight: "2rem",
-  marginLeft: "20px",
+  marginBottom: "auto",
 }));

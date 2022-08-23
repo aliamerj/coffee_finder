@@ -5,6 +5,7 @@ import {
   WelcomeStyles,
   TitleContainer,
   SubTitleStyles,
+  BannerContainer,
 } from "./banner.style";
 
 type HandderChangeButton = (text: string) => void;
@@ -17,14 +18,14 @@ const BannerComponent = ({
   handderChangeButton: HandderChangeButton;
 }) => {
   return (
-    <div>
+    <BannerContainer>
       <TitleContainer>
         <WelcomeStyles>Welcome to</WelcomeStyles>
         <TitleStyles> Coffee Finder !</TitleStyles>
       </TitleContainer>
       <SubTitleStyles>Find out your local coffee shops !</SubTitleStyles>
       <Button
-        sx={{ width: "40%" }}
+        sx={{ width: "22%" }}
         variant="contained"
         size="large"
         color="primary"
@@ -32,7 +33,7 @@ const BannerComponent = ({
       >
         {buttonText}
       </Button>
-    </div>
+    </BannerContainer>
   );
 };
 
