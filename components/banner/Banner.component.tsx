@@ -1,5 +1,5 @@
-import { Button } from "@mui/material";
-import styles from "./Banner.module.css";
+import { Alert, Button } from "@mui/material";
+import useTrackLocation from "../../hooks/use-track-location";
 import {
   TitleStyles,
   WelcomeStyles,
@@ -8,17 +8,29 @@ import {
   BannerContainer,
 } from "./banner.style";
 
-type HandderChangeButton = (text: string) => void;
+type SetPostionHandler = (postion: string) => void;
 
 const BannerComponent = ({
-  buttonText,
-  handderChangeButton,
+  setPostionHandler,
 }: {
-  buttonText: string;
-  handderChangeButton: HandderChangeButton;
+  setPostionHandler: SetPostionHandler;
 }) => {
+  const {
+    handleTrackLocation,
+    latLong,
+    locationErrorMessage,
+    isFindingLocation,
+  } = useTrackLocation();
+
+  const handderChangeButton = () => {
+    handleTrackLocation();
+    setPostionHandler(latLong);
+  };
   return (
     <BannerContainer>
+      {locationErrorMessage ? (
+        <Alert severity="error">{locationErrorMessage}</Alert>
+      ) : null}
       <TitleContainer>
         <WelcomeStyles>Welcome to</WelcomeStyles>
         <TitleStyles> Coffee Finder !</TitleStyles>
@@ -29,9 +41,9 @@ const BannerComponent = ({
         variant="contained"
         size="large"
         color="primary"
-        onClick={() => handderChangeButton("Loding...")}
+        onClick={() => handderChangeButton()}
       >
-        {buttonText}
+        {isFindingLocation ? "Locating..." : "view stores nearby"}
       </Button>
     </BannerContainer>
   );
