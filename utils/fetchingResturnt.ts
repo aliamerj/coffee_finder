@@ -1,11 +1,14 @@
 import axios from "axios";
 import { RestaurantData, RestaurantRequest } from "../types/Types";
+const defaultPosition = "57.6282658964594,39.8911484975912";
 
-export const fetchingResturnt = async (): Promise<RestaurantData[]> => {
+export const fetchingResturnt = async (
+  position: string = defaultPosition
+): Promise<RestaurantData[]> => {
   const encodedParams = new URLSearchParams();
   encodedParams.append("language", "en_US");
   encodedParams.append("limit", "6");
-  encodedParams.append("location_id", "57.6282658964594,39.8911484975912");
+  encodedParams.append("location_id", position);
   encodedParams.append("currency", "USD");
 
   const options = {

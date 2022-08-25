@@ -12,6 +12,7 @@ const StoresComponent = ({
     <StoresContainer>
       {restaurants.map((restaurant) => (
         <RestaurantCard
+          key={restaurant.location_id}
           name={restaurant.name}
           photo={restaurant.photo.images.original.url}
           id={restaurant.location_id}
