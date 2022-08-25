@@ -21,6 +21,5 @@ export interface RestaurantData {
   location_string: string;
   open_now_tex: string;
   address: string;
-  website: string;
   phone: string;
 }

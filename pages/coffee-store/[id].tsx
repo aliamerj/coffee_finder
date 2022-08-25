@@ -1,18 +1,53 @@
-import { NextPage } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import { GetServerSidePropsContext, NextPage } from "next";
+import SingleRestaurant from "../../components/singleRestaurant/SingleRestaurant.component";
+import { restaurantsFake } from "../../Data/restaurant";
+import { RestaurantData } from "../../types/Types";
+import { fetchingResturnt } from "../../utils/fetchingResturnt";
+let restaurants: RestaurantData[];
+const switchingData = (
+  restaurantsD: RestaurantData[] | string
+): RestaurantData[] => {
+  if (typeof restaurantsD === "string") {
+    return restaurantsFake;
+  } else {
+    return restaurantsD;
+  }
+};
 
-const CoffeeStore: NextPage = () => {
-  const { query } = useRouter();
+export async function getStaticProps(context: GetServerSidePropsContext) {
+  const params = context.params;
+  const restaurantsReal = await fetchingResturnt();
+  restaurants = switchingData(restaurantsReal);
 
-  return (
-    <div>
-      <h1>coffee-store {query.id}</h1>
-      <Link href="/">
-        <a>back </a>
-      </Link>
-    </div>
-  );
+  const findRestaurntById = restaurants.find((restaurant) => {
+    return restaurant.location_id.toString() === params?.id; //dynamic id
+  });
+  return {
+    props: {
+      restaurant: findRestaurntById ? findRestaurntById : {},
+    },
+  };
+}
+export async function getStaticPaths() {
+  const restaurantsReal = await fetchingResturnt();
+  restaurants = switchingData(restaurantsReal);
+  const paths = restaurants.map((restaurant) => {
+    return {
+      params: {
+        id: restaurant.location_id.toString(),
+      },
+    };
+  });
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+const CoffeeStore: NextPage<{ restaurant: RestaurantData }> = (
+  initialProps
+) => {
+  return <SingleRestaurant restaurant={initialProps.restaurant} />;
 };
 
 export default CoffeeStore;
